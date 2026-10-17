@@ -38,3 +38,13 @@ next-env.d.ts
 # Python cache / temporary test scripts
 __pycache__/
 *.pyc
+
+# Local Test Scripts & Artifacts
+scratch/
+test_*.py
+verify_*.py
+test_screenshots/
+brief_text.txt
+partners_text.txt
+partners_media/
+*.docx

@@ -11,7 +11,9 @@ A production-quality corporate website for **Prism General Trading**, a UAE-base
 - **Market Coverage:** Nationwide coverage across all seven UAE Emirates (Dubai, Abu Dhabi & Al Ain, Sharjah, Ajman, Ras Al Khaimah, Fujairah, and Umm Al Quwain)
 - **Core Categories:** FMCG, Beauty & Personal Care, Skincare & Cosmetics, Vitamins & Dietary Supplements, Health & Wellness, Household Cleaning & Hygiene, and OTC Healthcare Products
 - **Corporate Office:** Dubai, United Arab Emirates
-- **Inquiries Email:** info@prisminl.co
+- **Telephone:** +971 4 251 5753
+- **Inquiries Email:** info@prismintl.co
+- **Website Domain:** https://prismintl.co
 
 ---
 
@@ -58,10 +60,10 @@ A production-quality corporate website for **Prism General Trading**, a UAE-base
 
 6. **Careers (`/careers`)**:
    - Evergreen corporate introduction and cultural values (Professionalism, Accountability, Collaboration, Continuous Improvement)
-   - Direct email routing to `info@prisminl.co` with subject `"Career Enquiry"`
+   - Direct email routing to `info@prismintl.co` with subject `"Career Enquiry"`
 
 7. **Contact Us (`/contact-us`)**:
-   - Corporate contact details (Dubai, UAE | `info@prisminl.co`)
+   - Corporate contact details (Dubai, UAE | `+971 4 251 5753` | `info@prismintl.co`)
    - Interactive business enquiry form with client-side & server-side validation
    - Honeypot spam defense
    - UAE PDPL-compliant Privacy Notice modal and mandatory acknowledgment
