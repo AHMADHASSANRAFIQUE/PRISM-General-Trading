@@ -24,7 +24,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://prisminl.co"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://prismintl.co"),
   title: "Prism General Trading | FMCG Distribution & Marketing UAE",
   description:
     "Established in 1994, Prism provides FMCG, vitamins and supplements distribution and marketing across all seven Emirates.",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "Prism General Trading | FMCG Distribution & Marketing UAE",
     description:
       "Established in 1994, Prism provides FMCG, vitamins and supplements distribution and marketing across all seven Emirates.",
-    url: "https://prisminl.co",
+    url: "https://prismintl.co",
     siteName: "Prism General Trading",
     locale: "en_AE",
     type: "website",
@@ -94,17 +94,18 @@ const jsonLd = {
   "@type": "Corporation",
   name: "Prism General Trading",
   legalName: "Prism General Trading",
-  url: "https://prisminl.co",
-  logo: "https://prisminl.co/images/prism-logo.png",
+  url: "https://prismintl.co",
+  logo: "https://prismintl.co/images/prism-logo.png",
   description:
     "Established in 1994, Prism General Trading provides FMCG, vitamins, dietary supplements and healthcare consumer products distribution and marketing across all seven Emirates.",
   foundingDate: "1994",
+  telephone: "+971 4 251 5753",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Dubai",
     addressCountry: "AE",
   },
-  email: "info@prisminl.co",
+  email: "info@prismintl.co",
   areaServed: {
     "@type": "Country",
     name: "United Arab Emirates",
