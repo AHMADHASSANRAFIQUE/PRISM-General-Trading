@@ -1,66 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 export interface BrandItem {
   id: string;
   name: string;
-  category: "all" | "personal-care" | "health" | "household";
   logoSrc?: string;
   isCustomBadge?: boolean;
 }
 
 export const APPROVED_BRANDS: BrandItem[] = [
-  { id: "myra-e", name: "Myra E", category: "health", logoSrc: "/images/brands/myra-e.png" },
-  { id: "biogesic", name: "Biogesic", category: "health", logoSrc: "/images/brands/biogesic.jpeg" },
-  { id: "ceelin", name: "Ceelin", category: "health", logoSrc: "/images/brands/ceelin.png" },
-  { id: "enervon", name: "Enervon", category: "health", isCustomBadge: true },
-  { id: "brilliant-skin", name: "Brilliant Skin Essentials", category: "personal-care", logoSrc: "/images/brands/brilliant-skin.png" },
-  { id: "katinko", name: "Katinko", category: "health", logoSrc: "/images/brands/katinko.png" },
-  { id: "belo", name: "Belo", category: "personal-care", logoSrc: "/images/brands/belo.png" },
-  { id: "green-cross", name: "Green Cross", category: "household", logoSrc: "/images/brands/green-cross.png" },
-  { id: "zonrox", name: "Zonrox", category: "household", logoSrc: "/images/brands/zonrox.jpeg" },
-  { id: "del", name: "Del", category: "household", logoSrc: "/images/brands/del.jpeg" },
-];
-
-const CATEGORY_TABS = [
-  { id: "all", label: "All Brands (10)" },
-  { id: "health", label: "Health & Nutrition" },
-  { id: "personal-care", label: "Personal Care & Beauty" },
-  { id: "household", label: "Household Essentials" },
+  { id: "myra-e", name: "Myra E", logoSrc: "/images/brands/myra-e.png" },
+  { id: "biogesic", name: "Biogesic", logoSrc: "/images/brands/biogesic.jpeg" },
+  { id: "ceelin", name: "Ceelin", logoSrc: "/images/brands/ceelin.png" },
+  { id: "enervon", name: "Enervon", isCustomBadge: true },
+  { id: "brilliant-skin", name: "Brilliant Skin Essentials", logoSrc: "/images/brands/brilliant-skin.png" },
+  { id: "katinko", name: "Katinko", logoSrc: "/images/brands/katinko.png" },
+  { id: "belo", name: "Belo", logoSrc: "/images/brands/belo.png" },
+  { id: "green-cross", name: "Green Cross", logoSrc: "/images/brands/green-cross.png" },
+  { id: "zonrox", name: "Zonrox", logoSrc: "/images/brands/zonrox.jpeg" },
+  { id: "del", name: "Del", logoSrc: "/images/brands/del.jpeg" },
 ];
 
 export default function BrandGrid() {
-  const [activeTab, setActiveTab] = useState<string>("all");
-
-  const filteredBrands = APPROVED_BRANDS.filter(
-    (b) => activeTab === "all" || b.category === activeTab
-  );
-
   return (
-    <div className="space-y-8 w-full">
-      {/* Category Filter Pills */}
-      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-        {CATEGORY_TABS.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 touch-target interactive-tap ${
-              activeTab === tab.id
-                ? "bg-prism-primary text-white shadow-md shadow-prism-primary/20 scale-105"
-                : "bg-white text-slate-600 hover:text-prism-primary border border-slate-200 hover:border-prism-sky/50"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Museum-Grade 10-Brand Responsive Grid */}
+    <div className="w-full">
+      {/* Museum-Grade Responsive Brand Logo Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-6">
-        {filteredBrands.map((brand) => (
+        {APPROVED_BRANDS.map((brand) => (
           <div
             key={brand.id}
             className="group relative flex flex-col items-center justify-between p-6 bg-white rounded-2xl border border-slate-200/90 shadow-subtle hover:border-prism-sky/50 hover:shadow-hover transition-all duration-300 min-h-[170px] text-center"
