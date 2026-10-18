@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, ArrowRight, ShieldCheck, Users, Target, Sparkles, Building, HeartHandshake } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
+import JobOpenings from "@/components/JobOpenings";
 
 export const metadata = {
   title: "Careers | Prism General Trading UAE",
@@ -72,6 +73,11 @@ export default function CareersPage() {
               If you are interested in career opportunities in FMCG distribution, healthcare consumer products, sales, marketing or related business functions, we welcome an introduction.
             </p>
           </div>
+        </ScrollReveal>
+
+        {/* Current Job Openings Section */}
+        <ScrollReveal direction="up" duration={600}>
+          <JobOpenings />
         </ScrollReveal>
 
         {/* Culture & Values Grid */}

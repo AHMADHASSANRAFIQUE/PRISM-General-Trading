@@ -66,6 +66,12 @@ const CATEGORIES = [
     accent: "Aesthetic & Skin Health",
   },
   {
+    title: "Food Products",
+    desc: "Packaged consumer foods, culinary staples, gourmet ingredients, and everyday pantry FMCG essentials.",
+    image: "/images/categories/food.jpg",
+    accent: "Packaged Goods & Pantry",
+  },
+  {
     title: "Vitamins & Dietary Supplements",
     desc: "Essential multivitamins, nutritional boosters, and functional dietary supplements.",
     image: "/images/categories/vitamins.jpg",
