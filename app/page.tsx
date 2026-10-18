@@ -122,7 +122,7 @@ export default function HomePage() {
               <ScrollReveal direction="down" duration={500}>
                 <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-panel-dark text-prism-sky text-xs font-semibold tracking-wider uppercase shadow-xs">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>UAE Distribution & Marketing Partner • Est. 1994</span>
+                  <span>UAE Distribution Partner • Est. 1994</span>
                 </div>
               </ScrollReveal>
 
@@ -138,7 +138,7 @@ export default function HomePage() {
 
               <ScrollReveal direction="up" delay={200} duration={600}>
                 <p className="text-lg sm:text-xl font-medium text-slate-200/90 leading-snug max-w-2xl">
-                  FMCG, Vitamins & Supplements Distribution and Marketing Across the UAE
+                  Beauty & Personal Care, Cosmetics, Food Products, Housecare, Laundrycare, FMCG and Pharmaceuticals & Healthcare
                 </p>
               </ScrollReveal>
 
