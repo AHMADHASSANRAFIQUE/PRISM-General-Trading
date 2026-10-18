@@ -177,78 +177,82 @@ export default function Navbar() {
                 aria-label={mobileMenuOpen ? "Close menu" : "Open navigation menu"}
                 aria-expanded={mobileMenuOpen}
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-6 h-6 text-prism-primary" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Full-Screen Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[80px] bottom-0 z-50 bg-white/98 backdrop-blur-xl border-t border-slate-200 flex flex-col justify-between overflow-y-auto animate-fade-in">
-            <div className="px-5 py-6 space-y-2">
-              <div className="pb-3 border-b border-slate-100 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
-                <span>Corporate Sections</span>
-                <span className="text-prism-primary">Prism UAE</span>
-              </div>
-              <nav className="space-y-1.5 pt-2" aria-label="Mobile Navigation">
-                {NAV_LINKS.map((link) => {
-                  const isActive = pathname === link.href;
-                  return (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-base font-medium transition-colors touch-target ${
-                        isActive
-                          ? "bg-prism-ice text-prism-primary font-bold shadow-xs"
-                          : "text-slate-800 hover:bg-slate-50"
-                      }`}
-                    >
-                      <span>{link.name}</span>
-                      <ArrowUpRight className={`w-4 h-4 ${isActive ? "text-prism-primary" : "text-slate-300"}`} />
-                    </Link>
-                  );
-                })}
-              </nav>
+      {/* Mobile Full-Screen Navigation Drawer (Placed outside header to prevent backdrop-blur containing block issue) */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-x-0 top-20 bottom-0 z-40 bg-[#0A192F] text-white border-t border-white/10 flex flex-col justify-between overflow-y-auto overscroll-contain animate-fade-in shadow-2xl h-[calc(100dvh-80px)]">
+          <div className="px-5 py-6 space-y-3">
+            <div className="pb-3 border-b border-white/10 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
+              <span>Corporate Sections</span>
+              <span className="text-prism-sky font-bold">Prism UAE</span>
             </div>
-
-            <div className="p-5 border-t border-slate-200 bg-slate-50 space-y-4">
-              <Link
-                href="/contact-us"
-                onClick={() => setMobileMenuOpen(false)}
-                className="animate-sheen flex items-center justify-center gap-2 w-full py-3.5 text-base font-semibold text-white bg-prism-primary rounded-xl shadow-md interactive-tap touch-target"
-              >
-                <span>Initiate Business Enquiry</span>
-                <ArrowUpRight className="w-5 h-5" />
-              </Link>
-
-              <div className="space-y-2 text-xs text-slate-600">
-                <a
-                  href="tel:+97142515753"
-                  className="p-3 bg-white border border-slate-200 rounded-xl flex items-center gap-2 text-slate-700"
-                >
-                  <Phone className="w-4 h-4 text-prism-primary flex-shrink-0" />
-                  <span className="font-mono font-medium">+971 4 251 5753</span>
-                </a>
-                <div className="grid grid-cols-2 gap-2">
-                  <a
-                    href="mailto:info@prismintl.co"
-                    className="p-3 bg-white border border-slate-200 rounded-xl flex items-center gap-2 text-slate-700"
+            <nav className="space-y-1.5 pt-2" aria-label="Mobile Navigation">
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`group flex items-center justify-between px-4 py-3.5 rounded-xl text-base font-medium transition-all touch-target ${
+                      isActive
+                        ? "bg-white text-prism-navy font-bold shadow-md"
+                        : "text-white hover:text-prism-sky hover:bg-white/10"
+                    }`}
                   >
-                    <Mail className="w-4 h-4 text-prism-primary flex-shrink-0" />
-                    <span className="truncate">info@prismintl.co</span>
-                  </a>
-                  <div className="p-3 bg-white border border-slate-200 rounded-xl flex items-center gap-2 text-slate-700">
-                    <MapPin className="w-4 h-4 text-prism-primary flex-shrink-0" />
-                    <span className="truncate">Dubai, UAE</span>
-                  </div>
+                    <span className="tracking-wide">{link.name}</span>
+                    <ArrowUpRight
+                      className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
+                        isActive ? "text-prism-navy" : "text-slate-400 group-hover:text-prism-sky"
+                      }`}
+                    />
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div className="p-5 border-t border-white/10 bg-[#071324] space-y-4">
+            <Link
+              href="/contact-us"
+              onClick={() => setMobileMenuOpen(false)}
+              className="animate-sheen flex items-center justify-center gap-2 w-full py-3.5 text-base font-semibold text-white bg-prism-primary hover:bg-prism-blue rounded-xl shadow-md interactive-tap touch-target border border-white/10"
+            >
+              <span>Initiate Business Enquiry</span>
+              <ArrowUpRight className="w-5 h-5" />
+            </Link>
+
+            <div className="space-y-2 text-xs">
+              <a
+                href="tel:+97142515753"
+                className="p-3 bg-white/5 border border-white/10 rounded-xl flex items-center gap-2.5 text-white hover:bg-white/10 transition-colors"
+              >
+                <Phone className="w-4 h-4 text-prism-sky flex-shrink-0" />
+                <span className="font-mono font-medium text-white tracking-wide">+971 4 251 5753</span>
+              </a>
+              <div className="grid grid-cols-2 gap-2">
+                <a
+                  href="mailto:info@prismintl.co"
+                  className="p-3 bg-white/5 border border-white/10 rounded-xl flex items-center gap-2 text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <Mail className="w-4 h-4 text-prism-sky flex-shrink-0" />
+                  <span className="truncate font-mono text-[11px] text-white">info@prismintl.co</span>
+                </a>
+                <div className="p-3 bg-white/5 border border-white/10 rounded-xl flex items-center gap-2 text-slate-200">
+                  <MapPin className="w-4 h-4 text-prism-sky flex-shrink-0" />
+                  <span className="truncate text-slate-300">Dubai, UAE</span>
                 </div>
               </div>
             </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
     </>
   );
 }
