@@ -1,148 +1,75 @@
 "use client";
 
-import React, { useState } from "react";
-import { Briefcase, MapPin, Clock, ArrowRight, Mail, CheckCircle2, Building2, ChevronRight } from "lucide-react";
-
-interface JobOpening {
-  id: string;
-  title: string;
-  department: string;
-  location: string;
-  type: string;
-  experience: string;
-  summary: string;
-  responsibilities: string[];
-  requirements: string[];
-}
-
-const OPENINGS: JobOpening[] = [
-  {
-    id: "kam-fmcg",
-    title: "Key Account Manager – Modern Trade (FMCG)",
-    department: "Commercial & Sales",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "4–6 Years UAE Experience",
-    summary:
-      "Drive commercial volume, listing agreements, and Joint Business Planning (JBP) with key national hypermarket and supermarket accounts including Carrefour, Lulu, Union Coop, and West Zone.",
-    responsibilities: [
-      "Manage tier-one modern trade accounts, planogram execution, and in-store promotional calendars.",
-      "Analyze POS sell-through and SKU velocity to optimize replenishment cycles across store clusters.",
-      "Lead commercial trading terms negotiations, promotional rebates, and new SKU listings.",
-    ],
-    requirements: [
-      "Proven track record managing UAE modern trade accounts in FMCG, personal care, or food sectors.",
-      "Valid UAE driving license and established commercial relationships with retail buying teams.",
-      "Strong analytical skills, commercial numeracy, and presentation fluency.",
-    ],
-  },
-  {
-    id: "brand-marketing-exec",
-    title: "Brand Marketing Executive – Beauty & Personal Care",
-    department: "Marketing & Brand Development",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "3–5 Years Experience",
-    summary:
-      "Execute omnichannel brand activation, consumer campaigns, in-store merchandising guidelines, and digital brand presence for our international beauty and personal care portfolio.",
-    responsibilities: [
-      "Coordinate product launches, promotional displays, and retailer co-marketing campaigns.",
-      "Manage influencer outreach, localized social media content calendars, and beauty press PR.",
-      "Track marketing ROI, brand penetration metrics, and competitor benchmark analysis in the UAE market.",
-    ],
-    requirements: [
-      "Demonstrated marketing experience within beauty, skincare, cosmetics, or FMCG brands in the GCC.",
-      "Creative eye for visual merchandising and premium brand storytelling.",
-      "Strong bilingual communication (English required; Arabic is an advantage).",
-    ],
-  },
-  {
-    id: "supply-chain-coord",
-    title: "Supply Chain & Logistics Coordinator",
-    department: "Supply Chain & Operations",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "3–5 Years Experience",
-    summary:
-      "Oversee inbound freight forwarding, customs clearance, warehouse receiving, inventory control, and multi-channel fulfillment across modern trade, general trade, and pharmacy networks in all 7 Emirates.",
-    responsibilities: [
-      "Coordinate with shipping lines, freight forwarders, and Dubai Customs / DP World for expedited clearance.",
-      "Monitor stock holding levels, expiry tracking (FIFO/FEFO), and warehouse dispatch scheduling.",
-      "Ensure regulatory compliance documentation for Dubai Municipality and MOHAP inbound shipments.",
-    ],
-    requirements: [
-      "Extensive knowledge of UAE import/export documentation, Mirsal II, and customs protocols.",
-      "Proficiency in ERP inventory modules and multi-warehouse stock management.",
-      "Experience handling temperature-sensitive personal care, OTC, or FMCG goods.",
-    ],
-  },
-  {
-    id: "regulatory-specialist",
-    title: "Regulatory Affairs Specialist – OTC & Healthcare",
-    department: "Regulatory & Compliance",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "3–6 Years Experience",
-    summary:
-      "Spearhead product registration dossiers, label assessments, and regulatory approvals with the UAE Ministry of Health and Prevention (MOHAP) and Dubai Municipality (Montaji).",
-    responsibilities: [
-      "Compile, review, and submit technical dossiers for cosmetic, nutritional, and OTC healthcare products.",
-      "Liaise directly with health authorities to expedite product classification and commercial clearance.",
-      "Ensure ongoing compliance with regional GSO standards, ingredient bans, and mandatory Arabic labeling.",
-    ],
-    requirements: [
-      "Bachelor's degree in Pharmacy, Biomedical Sciences, Chemistry, or relevant discipline.",
-      "Proven direct experience with UAE MOHAP and Dubai Municipality Montaji portals.",
-      "Deep understanding of GCC cosmetic regulations and dietary supplement frameworks.",
-    ],
-  },
-  {
-    id: "food-fmcg-sales",
-    title: "Food & Beverage Category Sales Specialist",
-    department: "Commercial & Sales",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "3–5 Years Experience",
-    summary:
-      "Spearhead distribution expansion for packaged food products, culinary staples, and pantry FMCG across regional cooperative societies, supermarkets, and specialty food retail channels.",
-    responsibilities: [
-      "Expand distribution footprint for ambient packaged foods and gourmet grocery lines across UAE retail.",
-      "Coordinate shelf placement, promotional end-caps, and seasonal tasting activations.",
-      "Monitor order fulfillment, credit cycles, and on-shelf availability.",
-    ],
-    requirements: [
-      "Solid background in UAE food & beverage distribution or grocery modern/traditional trade.",
-      "Knowledge of food safety norms, retail shelf dynamics, and consumer pantry purchasing behaviors.",
-      "Self-driven with strong customer relationship management capability.",
-    ],
-  },
-];
-
-const DEPARTMENTS = [
-  "All Departments",
-  "Commercial & Sales",
-  "Marketing & Brand Development",
-  "Supply Chain & Operations",
-  "Regulatory & Compliance",
-];
+import React, { useState, useEffect, useMemo } from "react";
+import { Briefcase, MapPin, Clock, Mail, CheckCircle2, Building2, RefreshCw } from "lucide-react";
+import { DEFAULT_OPENINGS, JobOpening } from "@/lib/jobsData";
 
 export default function JobOpenings() {
+  const [jobs, setJobs] = useState<JobOpening[]>(DEFAULT_OPENINGS);
   const [activeDept, setActiveDept] = useState("All Departments");
   const [selectedJob, setSelectedJob] = useState<string | null>(null);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [isGoogleSheetsSource, setIsGoogleSheetsSource] = useState(false);
+
+  // Client-side fetch from /api/jobs to pick up any real-time Google Sheets changes
+  useEffect(() => {
+    let isMounted = true;
+    async function syncJobs() {
+      setIsSyncing(true);
+      try {
+        const res = await fetch("/api/jobs");
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && Array.isArray(data.jobs) && data.jobs.length > 0) {
+            setJobs(data.jobs);
+            if (data.source === "google_sheets") {
+              setIsGoogleSheetsSource(true);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("[JOBS CLIENT] Falling back to default openings:", err);
+      } finally {
+        if (isMounted) setIsSyncing(false);
+      }
+    }
+
+    syncJobs();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Compute dynamic departments list from active jobs
+  const departments = useMemo(() => {
+    const depts = new Set<string>();
+    jobs.forEach((job) => {
+      if (job.department) depts.add(job.department);
+    });
+    return ["All Departments", ...Array.from(depts)];
+  }, [jobs]);
 
   const filteredOpenings =
     activeDept === "All Departments"
-      ? OPENINGS
-      : OPENINGS.filter((job) => job.department === activeDept);
+      ? jobs
+      : jobs.filter((job) => job.department === activeDept);
 
   return (
     <div id="openings" className="space-y-10">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8">
         <div className="space-y-3 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-prism-ice text-prism-primary text-xs font-semibold uppercase tracking-wider">
-            <Briefcase className="w-3.5 h-3.5" />
-            <span>Current Opportunities</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-prism-ice text-prism-primary text-xs font-semibold uppercase tracking-wider">
+              <Briefcase className="w-3.5 h-3.5" />
+              <span>Current Opportunities</span>
+            </div>
+            {isGoogleSheetsSource && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Live Cloud Sync
+              </span>
+            )}
           </div>
           <h2 className="text-3xl sm:text-4xl font-serif font-bold text-prism-charcoal">
             Current Openings
@@ -156,12 +83,15 @@ export default function JobOpenings() {
           <span className="text-sm font-medium text-slate-500">
             Showing <strong className="text-prism-charcoal">{filteredOpenings.length}</strong> active position{filteredOpenings.length === 1 ? "" : "s"}
           </span>
+          {isSyncing && (
+            <RefreshCw className="w-3.5 h-3.5 text-slate-400 animate-spin" />
+          )}
         </div>
       </div>
 
       {/* Department Filter Pills */}
       <div className="flex flex-wrap gap-2">
-        {DEPARTMENTS.map((dept) => {
+        {departments.map((dept) => {
           const isActive = activeDept === dept;
           return (
             <button
@@ -238,42 +168,48 @@ export default function JobOpenings() {
               </div>
 
               {/* Summary */}
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                {job.summary}
-              </p>
+              {job.summary && (
+                <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                  {job.summary}
+                </p>
+              )}
 
               {/* Expandable Details */}
               {isExpanded && (
                 <div className="pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
-                  <div className="space-y-3">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-prism-primary flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4" />
-                      Key Responsibilities
-                    </h4>
-                    <ul className="space-y-2">
-                      {job.responsibilities.map((resp, i) => (
-                        <li key={i} className="text-sm text-slate-600 flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-prism-primary mt-2 shrink-0" />
-                          <span>{resp}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {job.responsibilities && job.responsibilities.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-prism-primary flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4" />
+                        Key Responsibilities
+                      </h4>
+                      <ul className="space-y-2">
+                        {job.responsibilities.map((resp, i) => (
+                          <li key={i} className="text-sm text-slate-600 flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-prism-primary mt-2 shrink-0" />
+                            <span>{resp}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                  <div className="space-y-3">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-prism-sky flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-prism-primary" />
-                      Candidate Requirements
-                    </h4>
-                    <ul className="space-y-2">
-                      {job.requirements.map((req, i) => (
-                        <li key={i} className="text-sm text-slate-600 flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 shrink-0" />
-                          <span>{req}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {job.requirements && job.requirements.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-prism-sky flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4 text-prism-primary" />
+                        Candidate Requirements
+                      </h4>
+                      <ul className="space-y-2">
+                        {job.requirements.map((req, i) => (
+                          <li key={i} className="text-sm text-slate-600 flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 shrink-0" />
+                            <span>{req}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
