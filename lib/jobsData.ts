@@ -11,7 +11,11 @@ export interface JobOpening {
   status?: string;
 }
 
-export const DEFAULT_OPENINGS: JobOpening[] = [
+// Default is empty until client connects their Google Sheet or posts openings
+export const DEFAULT_OPENINGS: JobOpening[] = [];
+
+// Sample reference records preserved for quick activation or local testing
+export const SAMPLE_REFERENCE_OPENINGS: JobOpening[] = [
   {
     id: "kam-fmcg",
     title: "Key Account Manager – Modern Trade (FMCG)",
