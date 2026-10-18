@@ -48,6 +48,7 @@ const PROOF_POINTS = [
     value: "All 7 Emirates",
     detail: "Dubai, Abu Dhabi, Sharjah, Ajman, RAK, Fujairah & UAQ",
     tag: "100% UAE",
+    pipeline: "Pipeline: KSA (March 2027), Singapore (May 2027), Jordan (January 2027)",
   },
 ];
 
@@ -227,6 +228,14 @@ export default function HomePage() {
                 <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
                   {item.detail}
                 </p>
+                {item.pipeline && (
+                  <div className="pt-2.5 border-t border-slate-100 mt-1">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-800 text-[11px] font-semibold tracking-wide border border-amber-500/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                      <span>{item.pipeline}</span>
+                    </span>
+                  </div>
+                )}
               </div>
             ))}
           </div>

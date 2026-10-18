@@ -223,6 +223,41 @@ export default function DistributionPage() {
               </ScrollReveal>
             ))}
           </div>
+
+          {/* Regional Expansion Pipeline */}
+          <ScrollReveal direction="up" delay={200} duration={600}>
+            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-1 max-w-md">
+                <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-800 text-[10px] font-bold uppercase tracking-wider border border-amber-500/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                  <span>Expansion Pipeline</span>
+                </div>
+                <h3 className="font-serif font-bold text-lg text-prism-charcoal">
+                  Strategic Regional Market Entry
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  Extending our proven commercial distribution model to high-growth regional and international markets.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 flex items-center gap-2 shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span>Jordan</span>
+                  <span className="text-prism-primary font-mono text-[11px] font-bold">(January 2027)</span>
+                </div>
+                <div className="px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 flex items-center gap-2 shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span>KSA</span>
+                  <span className="text-prism-primary font-mono text-[11px] font-bold">(March 2027)</span>
+                </div>
+                <div className="px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 flex items-center gap-2 shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span>Singapore</span>
+                  <span className="text-prism-primary font-mono text-[11px] font-bold">(May 2027)</span>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
