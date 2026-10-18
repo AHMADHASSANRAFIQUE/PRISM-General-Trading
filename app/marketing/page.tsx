@@ -251,18 +251,18 @@ export default function MarketingPage() {
             <ScrollReveal direction="left" duration={600}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-card border border-slate-200 group">
                 <Image
-                  src="/images/pharmacy-healthcare.jpg"
-                  alt="Integrated pharmaceutical and healthcare brand activation in UAE"
+                  src="/images/beauty-vitamins-activation.jpg"
+                  alt="Curated beauty, skincare, and dietary vitamins brand activation in UAE"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-prism-navy/80 via-transparent to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 text-white space-y-1">
                   <span className="text-[11px] uppercase font-bold tracking-widest text-prism-sky">
-                    Demand Generation & Pharmacy Marketing
+                    Beauty, Personal Care & Vitamin Marketing
                   </span>
                   <p className="text-sm font-medium text-slate-200">
-                    Aligning trade activation with clinical and retail availability across the Emirates.
+                    Coordinated retail marketing, in-store activation, and brand development across UAE modern trade and specialty channels.
                   </p>
                 </div>
               </div>
