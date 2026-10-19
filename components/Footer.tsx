@@ -13,6 +13,7 @@ const FOOTER_NAV = [
   { name: "Distribution", href: "/distribution" },
   { name: "Marketing & Brand Development", href: "/marketing" },
   { name: "Careers", href: "/careers" },
+  { name: "News & Events", href: "/news-and-events", badge: "Soon" },
   { name: "Contact Us", href: "/contact-us" },
 ];
 
@@ -96,9 +97,14 @@ export default function Footer() {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="text-slate-400 hover:text-white hover:translate-x-1 transition-all inline-flex items-center gap-1.5"
+                      className="text-slate-400 hover:text-white hover:translate-x-1 transition-all inline-flex items-center gap-2"
                     >
                       <span>{item.name}</span>
+                      {item.badge && (
+                        <span className="px-1.5 py-0.2 text-[9px] uppercase tracking-wider font-bold bg-amber-400/10 text-amber-300 border border-amber-400/20 rounded">
+                          {item.badge}
+                        </span>
+                      )}
                     </Link>
                   </li>
                 ))}

@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { name: "Distribution", href: "/distribution" },
   { name: "Marketing & Brand Development", href: "/marketing" },
   { name: "Careers", href: "/careers" },
+  { name: "News & Events", href: "/news-and-events", badge: "Soon" },
   { name: "Contact Us", href: "/contact-us" },
 ];
 
@@ -129,22 +130,27 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Corporate Navigation">
+            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5" aria-label="Main Corporate Navigation">
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`px-3 py-2 text-[13px] xl:text-[14px] font-medium transition-all rounded-lg relative ${
+                    className={`inline-flex items-center gap-1.5 px-2 xl:px-2.5 py-2 text-[12.5px] xl:text-[13.5px] font-medium transition-all rounded-lg relative ${
                       isActive
                         ? "text-prism-primary font-semibold bg-prism-ice/60"
                         : "text-slate-600 hover:text-prism-primary hover:bg-slate-50"
                     }`}
                   >
-                    {link.name}
+                    <span>{link.name}</span>
+                    {link.badge && (
+                      <span className="px-1.5 py-0.5 text-[9px] uppercase tracking-wider font-bold bg-amber-500/10 text-amber-700 border border-amber-500/20 rounded">
+                        {link.badge}
+                      </span>
+                    )}
                     {isActive && (
-                      <span className="absolute bottom-1 left-3 right-3 h-[2px] bg-prism-primary rounded-full" />
+                      <span className="absolute bottom-1 left-2 xl:left-2.5 right-2 xl:right-2.5 h-[2px] bg-prism-primary rounded-full" />
                     )}
                   </Link>
                 );
@@ -206,7 +212,14 @@ export default function Navbar() {
                         : "text-white hover:text-prism-sky hover:bg-white/10"
                     }`}
                   >
-                    <span className="tracking-wide">{link.name}</span>
+                    <div className="flex items-center gap-2.5">
+                      <span className="tracking-wide">{link.name}</span>
+                      {link.badge && (
+                        <span className="px-2 py-0.5 text-[10px] uppercase tracking-wider font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30 rounded">
+                          {link.badge}
+                        </span>
+                      )}
+                    </div>
                     <ArrowUpRight
                       className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
                         isActive ? "text-prism-navy" : "text-slate-400 group-hover:text-prism-sky"
