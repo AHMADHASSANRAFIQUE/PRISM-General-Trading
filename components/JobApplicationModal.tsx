@@ -10,7 +10,6 @@ import {
   Loader2,
   Trash2,
   Briefcase,
-  Mail,
   ShieldCheck,
 } from "lucide-react";
 import { JobOpening } from "@/lib/jobsData";
@@ -172,23 +171,26 @@ export default function JobApplicationModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-prism-navy/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
-      {/* Modal Dialog */}
+    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-prism-navy/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
+      {/* Backdrop overlay for outside click */}
+      <div className="fixed inset-0" onClick={resetAndClose} aria-hidden="true" />
+
+      {/* Modal Dialog with strict max-height and internal scrolling */}
       <div
-        className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transition-all my-8"
+        className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90dvh] my-auto z-10 transition-all"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="bg-gradient-to-r from-prism-navy via-[#112240] to-prism-charcoal text-white p-6 sm:p-8 flex items-start justify-between">
-          <div className="space-y-1.5 pr-6">
+        {/* Pinned Header */}
+        <div className="bg-gradient-to-r from-prism-navy via-[#112240] to-prism-charcoal text-white p-5 sm:p-6 flex items-start justify-between shrink-0 border-b border-white/10">
+          <div className="space-y-1.5 pr-4">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-prism-sky text-[11px] font-semibold tracking-wider uppercase">
               <Briefcase className="w-3 h-3" />
               <span>{job ? job.department : "Talent Application"}</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-serif font-bold text-white">
+            <h3 className="text-lg sm:text-xl font-serif font-bold text-white">
               {job ? `Apply for ${job.title}` : "Submit Speculative Application"}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs text-slate-300">
               Direct submission to Prism General Trading Talent Acquisition.
             </p>
           </div>
@@ -202,8 +204,8 @@ export default function JobApplicationModal({
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 sm:p-8">
+        {/* Scrollable Form Body */}
+        <div className="p-5 sm:p-7 overflow-y-auto overscroll-contain flex-1">
           {isSuccess ? (
             /* Success State */
             <div className="text-center py-6 space-y-5 animate-fadeIn">
@@ -242,7 +244,7 @@ export default function JobApplicationModal({
             </div>
           ) : (
             /* Application Form */
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {errorMessage && (
                 <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -251,8 +253,8 @@ export default function JobApplicationModal({
               )}
 
               {/* Personal Details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="space-y-1">
                   <label className="text-xs font-semibold text-slate-700">
                     Full Name <span className="text-red-500">*</span>
                   </label>
@@ -262,11 +264,11 @@ export default function JobApplicationModal({
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="e.g. Tariq Mansoor"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-prism-primary/30 focus:border-prism-primary"
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-prism-primary/30 focus:border-prism-primary"
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   <label className="text-xs font-semibold text-slate-700">
                     Email Address <span className="text-red-500">*</span>
                   </label>
@@ -276,12 +278,12 @@ export default function JobApplicationModal({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-prism-primary/30 focus:border-prism-primary"
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-prism-primary/30 focus:border-prism-primary"
                   />
                 </div>
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-700">
                   Phone / WhatsApp Number <span className="text-red-500">*</span>
                 </label>
@@ -291,12 +293,12 @@ export default function JobApplicationModal({
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+971 50 123 4567"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-prism-primary/30 focus:border-prism-primary"
+                  className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-prism-primary/30 focus:border-prism-primary"
                 />
               </div>
 
               {/* Optional Cover Note */}
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-700 flex justify-between">
                   <span>Brief Introduction / Note</span>
                   <span className="text-slate-400 font-normal">Optional</span>
@@ -311,7 +313,7 @@ export default function JobApplicationModal({
               </div>
 
               {/* File Upload Zone */}
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-700">
                   Upload CV / Resume <span className="text-red-500">*</span>
                 </label>
@@ -332,18 +334,18 @@ export default function JobApplicationModal({
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current?.click()}
-                    className={`border-2 border-dashed rounded-2xl p-5 text-center cursor-pointer transition-all duration-200 ${
+                    className={`border-2 border-dashed rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 ${
                       dragActive
                         ? "border-prism-primary bg-prism-ice/40"
                         : "border-slate-300 hover:border-prism-primary hover:bg-slate-50"
                     }`}
                   >
-                    <div className="flex flex-col items-center justify-center space-y-2">
-                      <div className="w-10 h-10 rounded-xl bg-prism-ice text-prism-primary flex items-center justify-center">
+                    <div className="flex flex-col items-center justify-center space-y-1.5">
+                      <div className="w-9 h-9 rounded-xl bg-prism-ice text-prism-primary flex items-center justify-center">
                         <UploadCloud className="w-5 h-5" />
                       </div>
                       <div className="space-y-0.5">
-                        <p className="text-xs sm:text-sm font-semibold text-prism-charcoal">
+                        <p className="text-xs font-semibold text-prism-charcoal">
                           Click to browse or drag & drop your CV here
                         </p>
                         <p className="text-[11px] text-slate-500">
@@ -353,16 +355,16 @@ export default function JobApplicationModal({
                     </div>
                   </div>
                 ) : (
-                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                  <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <div className="w-10 h-10 rounded-xl bg-prism-primary/10 text-prism-primary flex items-center justify-center shrink-0">
-                        <FileText className="w-5 h-5" />
+                      <div className="w-9 h-9 rounded-xl bg-prism-primary/10 text-prism-primary flex items-center justify-center shrink-0">
+                        <FileText className="w-4 h-4" />
                       </div>
                       <div className="overflow-hidden">
-                        <p className="text-xs sm:text-sm font-semibold text-prism-charcoal truncate">
+                        <p className="text-xs font-semibold text-prism-charcoal truncate">
                           {file.name}
                         </p>
-                        <p className="text-[11px] text-slate-500 font-mono">
+                        <p className="text-[10px] text-slate-500 font-mono">
                           {Math.round(file.size / 1024)} KB
                         </p>
                       </div>
@@ -371,7 +373,7 @@ export default function JobApplicationModal({
                     <button
                       type="button"
                       onClick={removeFile}
-                      className="p-2 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"
+                      className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors"
                       title="Remove file"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -381,24 +383,24 @@ export default function JobApplicationModal({
               </div>
 
               {/* Security Note */}
-              <div className="flex items-center gap-2 text-[11px] text-slate-500">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+              <div className="flex items-center gap-2 text-[11px] text-slate-500 pt-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                 <span>Your information is handled securely according to our privacy guidelines.</span>
               </div>
 
               {/* Submit Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-end gap-3">
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={resetAndClose}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 text-sm font-medium transition-colors"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 text-xs sm:text-sm font-medium transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto px-7 py-2.5 rounded-xl bg-prism-primary hover:bg-prism-blue text-white text-sm font-semibold transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full sm:w-auto px-7 py-2.5 rounded-xl bg-prism-primary hover:bg-prism-blue text-white text-xs sm:text-sm font-semibold transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
