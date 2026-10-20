@@ -11,10 +11,59 @@ export interface JobOpening {
   status?: string;
 }
 
-// Default is empty until client connects their Google Sheet or posts openings
-export const DEFAULT_OPENINGS: JobOpening[] = [];
+// Active openings requested by client
+export const DEFAULT_OPENINGS: JobOpening[] = [
+  {
+    id: "sales-supervisor",
+    title: "Sales Supervisor",
+    department: "Commercial & Sales",
+    location: "Dubai, UAE",
+    type: "Full-time",
+    experience: "3–5 Years UAE Experience",
+    summary:
+      "Supervise and lead our FMCG field sales operations across modern trade, cooperative societies, and key retail accounts. Drive daily territory coverage, shelf replenishment, planogram compliance, and achieve monthly volume and distribution targets.",
+    responsibilities: [
+      "Lead, train, and manage field sales executives and merchandisers across assigned UAE retail sectors.",
+      "Ensure 100% on-shelf availability, proper stock rotation (FIFO/FEFO), and prominent promotional displays.",
+      "Conduct daily market visits to monitor retailer compliance, stock levels, competitor pricing, and shelf share.",
+      "Build and maintain strong commercial relationships with store managers and department supervisors.",
+      "Track sales metrics, strike rates, order fulfillment, and prepare weekly territory performance reports.",
+    ],
+    requirements: [
+      "3 to 5 years of proven sales supervisory experience in UAE FMCG (food, personal care, or household goods).",
+      "Valid UAE driving license is mandatory.",
+      "Strong leadership, territory planning, route-to-market knowledge, and retail negotiation skills.",
+      "Fluency in English (Arabic or Hindi/Urdu is an added advantage).",
+    ],
+    status: "Active",
+  },
+  {
+    id: "assistant-brand-manager",
+    title: "Assistant Brand Manager",
+    department: "Marketing & Brand Development",
+    location: "Dubai, UAE",
+    type: "Full-time",
+    experience: "2–4 Years Experience",
+    summary:
+      "Support brand strategy, omnichannel trade activations, and commercial brand growth across assigned international FMCG, personal care, cosmetics, and food portfolios in the UAE and GCC.",
+    responsibilities: [
+      "Collaborate with brand principals to develop annual marketing calendars, product launches, and seasonal trade activations.",
+      "Coordinate with creative agencies and POSM suppliers to produce high-impact in-store promotional displays and end-caps.",
+      "Manage influencer campaigns, brand ambassador partnerships, and localized digital media initiatives.",
+      "Analyze consumer trends, brand sell-out data, advertising ROI, and competitive market intelligence.",
+      "Assist in organizing company participation in major trade exhibitions such as Beautyworld Middle East and Gulfood.",
+    ],
+    requirements: [
+      "Bachelor's degree in Marketing, Business Administration, or a related commercial discipline.",
+      "2 to 4 years of hands-on brand marketing or trade marketing experience within the FMCG / beauty / retail sector in the UAE.",
+      "Strong creative judgment, visual merchandising acumen, and project management skills.",
+      "Excellent written and verbal communication skills in English (Arabic is a strong advantage).",
+    ],
+    status: "Active",
+  },
+];
 
-// Sample reference records preserved for quick activation or local testing
+// Additional reference records preserved for future activation
 export const SAMPLE_REFERENCE_OPENINGS: JobOpening[] = [
   {
     id: "kam-fmcg",
@@ -38,27 +87,6 @@ export const SAMPLE_REFERENCE_OPENINGS: JobOpening[] = [
     status: "Active",
   },
   {
-    id: "brand-marketing-exec",
-    title: "Brand Marketing Executive – Beauty & Personal Care",
-    department: "Marketing & Brand Development",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "3–5 Years Experience",
-    summary:
-      "Execute omnichannel brand activation, consumer campaigns, in-store merchandising guidelines, and digital brand presence for our international beauty and personal care portfolio.",
-    responsibilities: [
-      "Coordinate product launches, promotional displays, and retailer co-marketing campaigns.",
-      "Manage influencer outreach, localized social media content calendars, and beauty press PR.",
-      "Track marketing ROI, brand penetration metrics, and competitor benchmark analysis in the UAE market.",
-    ],
-    requirements: [
-      "Demonstrated marketing experience within beauty, skincare, cosmetics, or FMCG brands in the GCC.",
-      "Creative eye for visual merchandising and premium brand storytelling.",
-      "Strong bilingual communication (English required; Arabic is an advantage).",
-    ],
-    status: "Active",
-  },
-  {
     id: "supply-chain-coord",
     title: "Supply Chain & Logistics Coordinator",
     department: "Supply Chain & Operations",
@@ -76,48 +104,6 @@ export const SAMPLE_REFERENCE_OPENINGS: JobOpening[] = [
       "Extensive knowledge of UAE import/export documentation, Mirsal II, and customs protocols.",
       "Proficiency in ERP inventory modules and multi-warehouse stock management.",
       "Experience handling temperature-sensitive personal care, OTC, or FMCG goods.",
-    ],
-    status: "Active",
-  },
-  {
-    id: "regulatory-specialist",
-    title: "Regulatory Affairs Specialist – OTC & Healthcare",
-    department: "Regulatory & Compliance",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "3–6 Years Experience",
-    summary:
-      "Spearhead product registration dossiers, label assessments, and regulatory approvals with the UAE Ministry of Health and Prevention (MOHAP) and Dubai Municipality (Montaji).",
-    responsibilities: [
-      "Compile, review, and submit technical dossiers for cosmetic, nutritional, and OTC healthcare products.",
-      "Liaise directly with health authorities to expedite product classification and commercial clearance.",
-      "Ensure ongoing compliance with regional GSO standards, ingredient bans, and mandatory Arabic labeling.",
-    ],
-    requirements: [
-      "Bachelor's degree in Pharmacy, Biomedical Sciences, Chemistry, or relevant discipline.",
-      "Proven direct experience with UAE MOHAP and Dubai Municipality Montaji portals.",
-      "Deep understanding of GCC cosmetic regulations and dietary supplement frameworks.",
-    ],
-    status: "Active",
-  },
-  {
-    id: "food-fmcg-sales",
-    title: "Food & Beverage Category Sales Specialist",
-    department: "Commercial & Sales",
-    location: "Dubai, UAE",
-    type: "Full-time",
-    experience: "3–5 Years Experience",
-    summary:
-      "Spearhead distribution expansion for packaged food products, culinary staples, and pantry FMCG across regional cooperative societies, supermarkets, and specialty food retail channels.",
-    responsibilities: [
-      "Expand distribution footprint for ambient packaged foods and gourmet grocery lines across UAE retail.",
-      "Coordinate shelf placement, promotional end-caps, and seasonal tasting activations.",
-      "Monitor order fulfillment, credit cycles, and on-shelf availability.",
-    ],
-    requirements: [
-      "Solid background in UAE food & beverage distribution or grocery modern/traditional trade.",
-      "Knowledge of food safety norms, retail shelf dynamics, and consumer pantry purchasing behaviors.",
-      "Self-driven with strong customer relationship management capability.",
     ],
     status: "Active",
   },
