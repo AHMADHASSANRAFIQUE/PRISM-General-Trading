@@ -171,23 +171,23 @@ export default function JobApplicationModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-prism-navy/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
+    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-prism-navy/80 backdrop-blur-sm p-3 sm:p-6 flex justify-center items-start animate-fadeIn">
       {/* Backdrop overlay for outside click */}
       <div className="fixed inset-0" onClick={resetAndClose} aria-hidden="true" />
 
-      {/* Modal Dialog with strict max-height and internal scrolling */}
+      {/* Modal Dialog with strict max-height, safe vertical centering, and internal scrolling */}
       <div
-        className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90dvh] my-auto z-10 transition-all"
+        className="relative w-full max-w-xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-3rem)] my-auto z-10 transition-all"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Pinned Header */}
-        <div className="bg-gradient-to-r from-prism-navy via-[#112240] to-prism-charcoal text-white p-5 sm:p-6 flex items-start justify-between shrink-0 border-b border-white/10">
-          <div className="space-y-1.5 pr-4">
+        {/* Pinned Header - ALWAYS visible at the top */}
+        <div className="bg-gradient-to-r from-prism-navy via-[#112240] to-prism-charcoal text-white p-4 sm:p-5 flex items-start justify-between shrink-0 border-b border-white/10">
+          <div className="space-y-1 pr-3">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-prism-sky text-[11px] font-semibold tracking-wider uppercase">
               <Briefcase className="w-3 h-3" />
               <span>{job ? job.department : "Talent Application"}</span>
             </div>
-            <h3 className="text-lg sm:text-xl font-serif font-bold text-white">
+            <h3 className="text-base sm:text-lg md:text-xl font-serif font-bold text-white leading-tight">
               {job ? `Apply for ${job.title}` : "Submit Speculative Application"}
             </h3>
             <p className="text-xs text-slate-300">
@@ -196,16 +196,17 @@ export default function JobApplicationModal({
           </div>
 
           <button
+            type="button"
             onClick={resetAndClose}
-            className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors shrink-0"
+            className="p-2 -mr-1 -mt-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors shrink-0"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Scrollable Form Body */}
-        <div className="p-5 sm:p-7 overflow-y-auto overscroll-contain flex-1">
+        {/* Scrollable Form Body with min-h-0 so flexbox allows internal scrolling */}
+        <div className="p-4 sm:p-6 overflow-y-auto overscroll-contain flex-1 min-h-0">
           {isSuccess ? (
             /* Success State */
             <div className="text-center py-6 space-y-5 animate-fadeIn">
