@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   X,
   UploadCloud,
@@ -25,6 +26,7 @@ export default function JobApplicationModal({
   onClose,
   job,
 }: JobApplicationModalProps) {
+  const [mounted, setMounted] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -37,6 +39,11 @@ export default function JobApplicationModal({
   const [applicationRef, setApplicationRef] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Mount check for safe portal rendering in Next.js
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close on Escape key
   useEffect(() => {
@@ -61,7 +68,7 @@ export default function JobApplicationModal({
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -170,43 +177,49 @@ export default function JobApplicationModal({
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-prism-navy/80 backdrop-blur-sm p-3 sm:p-6 flex justify-center items-start animate-fadeIn">
-      {/* Backdrop overlay for outside click */}
-      <div className="fixed inset-0" onClick={resetAndClose} aria-hidden="true" />
-
-      {/* Modal Dialog with strict max-height, safe vertical centering, and internal scrolling */}
+  return createPortal(
+    <div className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain animate-fadeIn">
+      {/* Full-screen backdrop dimming everything including sticky header */}
       <div
-        className="relative w-full max-w-xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-3rem)] my-auto z-10 transition-all"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Pinned Header - ALWAYS visible at the top */}
-        <div className="bg-gradient-to-r from-prism-navy via-[#112240] to-prism-charcoal text-white p-4 sm:p-5 flex items-start justify-between shrink-0 border-b border-white/10">
-          <div className="space-y-1 pr-3">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-prism-sky text-[11px] font-semibold tracking-wider uppercase">
-              <Briefcase className="w-3 h-3" />
-              <span>{job ? job.department : "Talent Application"}</span>
+        className="fixed inset-0 bg-prism-navy/85 backdrop-blur-sm transition-opacity"
+        onClick={resetAndClose}
+        aria-hidden="true"
+      />
+
+      {/* Vertical & Horizontal Centering Container with balanced margins */}
+      <div className="flex min-h-full items-center justify-center p-4 sm:p-6 md:p-8 text-center">
+        {/* Modal Dialog with strict max-height, safe vertical centering, and internal scrolling */}
+        <div
+          className="relative w-full max-w-xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-4rem)] text-left z-10 transition-all my-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Pinned Header - ALWAYS visible at the top */}
+          <div className="bg-gradient-to-r from-prism-navy via-[#112240] to-prism-charcoal text-white p-4 sm:p-5 flex items-start justify-between shrink-0 border-b border-white/10">
+            <div className="space-y-1 pr-3">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-prism-sky text-[11px] font-semibold tracking-wider uppercase">
+                <Briefcase className="w-3 h-3" />
+                <span>{job ? job.department : "Talent Application"}</span>
+              </div>
+              <h3 className="text-base sm:text-lg md:text-xl font-serif font-bold text-white leading-tight">
+                {job ? `Apply for ${job.title}` : "Submit Speculative Application"}
+              </h3>
+              <p className="text-xs text-slate-300">
+                Direct submission to Prism General Trading Talent Acquisition.
+              </p>
             </div>
-            <h3 className="text-base sm:text-lg md:text-xl font-serif font-bold text-white leading-tight">
-              {job ? `Apply for ${job.title}` : "Submit Speculative Application"}
-            </h3>
-            <p className="text-xs text-slate-300">
-              Direct submission to Prism General Trading Talent Acquisition.
-            </p>
+
+            <button
+              type="button"
+              onClick={resetAndClose}
+              className="p-2 -mr-1 -mt-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors shrink-0"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={resetAndClose}
-            className="p-2 -mr-1 -mt-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors shrink-0"
-            aria-label="Close modal"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Scrollable Form Body with min-h-0 so flexbox allows internal scrolling */}
-        <div className="p-4 sm:p-6 overflow-y-auto overscroll-contain flex-1 min-h-0">
+          {/* Scrollable Form Body with min-h-0 so flexbox allows internal scrolling */}
+          <div className="p-4 sm:p-6 overflow-y-auto overscroll-contain flex-1 min-h-0">
           {isSuccess ? (
             /* Success State */
             <div className="text-center py-6 space-y-5 animate-fadeIn">
@@ -418,5 +431,7 @@ export default function JobApplicationModal({
         </div>
       </div>
     </div>
-  );
+  </div>,
+  document.body
+);
 }
