@@ -9,7 +9,7 @@ import { Menu, X, ArrowUpRight, Mail, MapPin, Building, ShieldCheck, Phone } fro
 const NAV_LINKS = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about-us" },
-  { name: "Our Brands", href: "/partners" },
+  { name: "Partners", href: "/partners" },
   { name: "Distribution", href: "/distribution" },
   { name: "Marketing & Brand Development", href: "/marketing" },
   { name: "Careers", href: "/careers" },

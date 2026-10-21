@@ -9,7 +9,7 @@ import PrivacyModal from "./PrivacyModal";
 const FOOTER_NAV = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about-us" },
-  { name: "Our Brands", href: "/partners" },
+  { name: "Partners", href: "/partners" },
   { name: "Distribution", href: "/distribution" },
   { name: "Marketing & Brand Development", href: "/marketing" },
   { name: "Careers", href: "/careers" },

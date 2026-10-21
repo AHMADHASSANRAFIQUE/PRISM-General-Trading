@@ -5,7 +5,7 @@ import BrandGrid from "@/components/BrandGrid";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata = {
-  title: "Our Brands | Prism General Trading",
+  title: "Partners | Prism General Trading",
   description:
     "Explore the international and regional brands represented by Prism General Trading in the UAE.",
 };
