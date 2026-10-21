@@ -20,19 +20,19 @@ export default function PartnersPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <ScrollReveal direction="down" duration={500}>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel-dark text-xs font-semibold uppercase tracking-widest text-prism-sky">
-              <span>Authorized Brand Portfolio</span>
+              <span>Authorized Brand Partners</span>
             </div>
           </ScrollReveal>
 
           <ScrollReveal direction="up" delay={100} duration={600}>
             <h1 className="text-fluid-h1 font-serif font-bold tracking-tight text-white leading-tight">
-              Brands We Represent
+              Partners & Brands We Represent
             </h1>
           </ScrollReveal>
 
           <ScrollReveal direction="up" delay={200} duration={600}>
             <p className="text-lg sm:text-xl text-slate-200 max-w-3xl font-light leading-relaxed">
-              Our portfolio includes established international and regional consumer brands across FMCG, personal care, health, wellness, and household essentials.
+              Our partner portfolio includes established international and regional consumer brands across FMCG, personal care, health, wellness, and household essentials.
             </p>
           </ScrollReveal>
         </div>
@@ -44,7 +44,7 @@ export default function PartnersPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-200 gap-4">
             <div>
               <h2 className="text-xs uppercase tracking-widest font-bold text-slate-400">
-                Official Brand Portfolio
+                Official Brand Partners
               </h2>
               <p className="text-sm font-semibold text-prism-charcoal mt-1">
                 Authorized UAE Marketing & Distribution
@@ -52,7 +52,7 @@ export default function PartnersPage() {
             </div>
             <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200 self-start sm:self-auto">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Authorized International Marks</span>
+              <span>Authorized Brand Partners</span>
             </div>
           </div>
         </ScrollReveal>
