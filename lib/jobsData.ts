@@ -14,25 +14,25 @@ export interface JobOpening {
 // Active openings requested by client
 export const DEFAULT_OPENINGS: JobOpening[] = [
   {
-    id: "sales-supervisor",
-    title: "Sales Supervisor",
+    id: "sales-manager",
+    title: "Sales Manager",
     department: "Commercial & Sales",
     location: "Dubai, UAE",
     type: "Full-time",
-    experience: "3–5 Years UAE Experience",
+    experience: "10–15 Years UAE Experience",
     summary:
-      "Supervise and lead our FMCG field sales operations across modern trade, cooperative societies, and key retail accounts. Drive daily territory coverage, shelf replenishment, planogram compliance, and achieve monthly volume and distribution targets.",
+      "Lead and oversee our FMCG commercial sales operations across modern trade, cooperative societies, and key retail accounts throughout the UAE. Drive territory expansion, strategic retailer relationships, planogram compliance, and achieve corporate revenue and distribution targets.",
     responsibilities: [
-      "Lead, train, and manage field sales executives and merchandisers across assigned UAE retail sectors.",
+      "Lead, mentor, and manage field sales teams, supervisors, and merchandisers across assigned UAE retail sectors.",
       "Ensure 100% on-shelf availability, proper stock rotation (FIFO/FEFO), and prominent promotional displays.",
-      "Conduct daily market visits to monitor retailer compliance, stock levels, competitor pricing, and shelf share.",
-      "Build and maintain strong commercial relationships with store managers and department supervisors.",
-      "Track sales metrics, strike rates, order fulfillment, and prepare weekly territory performance reports.",
+      "Conduct regular market visits to monitor retailer compliance, stock levels, competitor pricing, and market share.",
+      "Build and maintain strong commercial relationships with key account buyers, category managers, and store supervisors.",
+      "Set territory quotas, track sales KPIs, order fulfillment, and prepare executive commercial performance reports.",
     ],
     requirements: [
-      "3 to 5 years of proven sales supervisory experience in UAE FMCG (food, personal care, or household goods).",
+      "10 to 15 years of proven sales management experience in UAE FMCG (food, personal care, or household goods).",
       "Valid UAE driving license is mandatory.",
-      "Strong leadership, territory planning, route-to-market knowledge, and retail negotiation skills.",
+      "Proven track record in commercial negotiation, route-to-market strategy, and retail distribution.",
       "Fluency in English (Arabic or Hindi/Urdu is an added advantage).",
     ],
     status: "Active",

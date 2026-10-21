@@ -101,7 +101,7 @@ export default function AboutPage() {
 
           <ScrollReveal direction="up" delay={200} duration={600}>
             <p className="text-lg sm:text-xl text-slate-200 max-w-3xl font-light leading-relaxed">
-              Founded in 1994, Prism General Trading is an established UAE company specializing in the distribution and marketing of FMCG, vitamins, dietary supplements and healthcare consumer products.
+              Founded in 1994, Headquartered in the UAE, Prism General Trading specializes in the distribution and marketing of FMCG, Beauty and Personal Care, house care, Food, Vitamins, dietary supplements and Healthcare consumer products.
             </p>
           </ScrollReveal>
         </div>
