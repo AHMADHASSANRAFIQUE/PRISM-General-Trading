@@ -4,16 +4,37 @@ import { DEFAULT_OPENINGS, JobOpening } from "@/lib/jobsData";
 
 export const revalidate = 60; // Auto-revalidate every 60 seconds
 
+function normalizeGoogleSheetUrl(rawUrl: string): string {
+  if (!rawUrl) return rawUrl;
+  const trimmed = rawUrl.trim();
+
+  // If already an export or published CSV URL, return as-is
+  if (trimmed.includes("/export?format=csv") || trimmed.includes("/pub?output=csv")) {
+    return trimmed;
+  }
+
+  // Handle standard Google Sheets edit or view URL: https://docs.google.com/spreadsheets/d/<ID>/...
+  const match = trimmed.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (match && match[1]) {
+    const sheetId = match[1];
+    const gidMatch = trimmed.match(/[?&#]gid=([0-9]+)/);
+    const gid = gidMatch ? gidMatch[1] : "0";
+    return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+  }
+
+  return trimmed;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const explicitSheetUrl = searchParams.get("sheetUrl");
   
-  const sheetUrl =
+  const rawSheetUrl =
     explicitSheetUrl ||
     process.env.GOOGLE_SHEETS_JOBS_URL ||
     process.env.NEXT_PUBLIC_GOOGLE_SHEETS_JOBS_URL;
 
-  if (!sheetUrl) {
+  if (!rawSheetUrl) {
     return NextResponse.json({
       jobs: DEFAULT_OPENINGS,
       source: "fallback",
@@ -22,6 +43,8 @@ export async function GET(request: Request) {
       note: "GOOGLE_SHEETS_JOBS_URL not configured. Using default active openings.",
     });
   }
+
+  const sheetUrl = normalizeGoogleSheetUrl(rawSheetUrl);
 
   try {
     const response = await fetch(sheetUrl, {
