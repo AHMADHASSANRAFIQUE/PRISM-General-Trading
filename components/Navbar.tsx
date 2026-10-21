@@ -96,15 +96,15 @@ export default function Navbar() {
             : "bg-white border-b border-slate-100"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Official Logo Brandmark */}
+        <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-4 xl:px-8">
+          <div className="flex items-center justify-between h-20 gap-2 xl:gap-4">
+            {/* Official Logo Brandmark (Est. 1994 badge removed for a sleek, neat look) */}
             <Link
               href="/"
-              className="flex items-center gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-prism-blue rounded-lg py-1 interactive-tap"
+              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-prism-blue rounded-lg py-1 interactive-tap shrink-0"
               aria-label="Prism General Trading - Home"
             >
-              <div className="relative w-11 h-11 flex-shrink-0">
+              <div className="relative w-10 h-10 xl:w-11 xl:h-11 flex-shrink-0">
                 <Image
                   src="/images/prism-logo.png"
                   alt="Prism General Trading Official Logo"
@@ -115,37 +115,32 @@ export default function Navbar() {
                 />
               </div>
               <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="font-serif text-2xl font-bold tracking-tight text-prism-charcoal group-hover:text-prism-primary transition-colors">
-                    PRISM
-                  </span>
-                  <span className="hidden sm:inline-block px-1.5 py-0.5 text-[9px] uppercase tracking-wider font-bold bg-amber-500/10 text-amber-700 border border-amber-500/20 rounded">
-                    Est. 1994
-                  </span>
-                </div>
-                <span className="text-[10px] tracking-[0.22em] uppercase font-semibold text-slate-500">
+                <span className="font-serif text-xl xl:text-2xl font-bold tracking-tight text-prism-charcoal group-hover:text-prism-primary transition-colors leading-none">
+                  PRISM
+                </span>
+                <span className="text-[9px] xl:text-[10px] tracking-[0.22em] uppercase font-semibold text-slate-500 mt-1">
                   General Trading
                 </span>
               </div>
             </Link>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5" aria-label="Main Corporate Navigation">
+            {/* Desktop Navigation Links - Single Horizontal Line with NO Text Wrapping */}
+            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 2xl:gap-1.5 shrink-0" aria-label="Main Corporate Navigation">
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`inline-flex items-center gap-1.5 px-2 xl:px-2.5 py-2 text-[12.5px] xl:text-[13.5px] font-medium transition-all rounded-lg relative ${
+                    className={`inline-flex items-center gap-1.5 px-2 xl:px-2.5 py-2 text-[12px] xl:text-[13px] 2xl:text-[13.5px] font-medium whitespace-nowrap transition-all rounded-lg relative ${
                       isActive
                         ? "text-prism-primary font-semibold bg-prism-ice/60"
                         : "text-slate-600 hover:text-prism-primary hover:bg-slate-50"
                     }`}
                   >
-                    <span>{link.name}</span>
+                    <span className="whitespace-nowrap">{link.name}</span>
                     {link.badge && (
-                      <span className="px-1.5 py-0.5 text-[9px] uppercase tracking-wider font-bold bg-amber-500/10 text-amber-700 border border-amber-500/20 rounded">
+                      <span className="px-1.5 py-0.5 text-[8.5px] uppercase tracking-wider font-bold bg-amber-500/10 text-amber-700 border border-amber-500/20 rounded shrink-0">
                         {link.badge}
                       </span>
                     )}
@@ -158,13 +153,13 @@ export default function Navbar() {
             </nav>
 
             {/* Desktop Contact CTA */}
-            <div className="hidden lg:flex items-center">
+            <div className="hidden lg:flex items-center shrink-0">
               <Link
                 href="/contact-us"
-                className="animate-sheen inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-prism-primary hover:bg-prism-blue rounded-xl transition-all duration-200 shadow-md hover:shadow-lg interactive-tap"
+                className="animate-sheen inline-flex items-center gap-1.5 xl:gap-2 px-3.5 xl:px-5 py-2 xl:py-2.5 text-xs xl:text-sm font-semibold text-white bg-prism-primary hover:bg-prism-blue rounded-xl transition-all duration-200 shadow-md hover:shadow-lg interactive-tap whitespace-nowrap"
               >
                 <span>Partner With Us</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="w-3.5 h-3.5 xl:w-4 xl:h-4" />
               </Link>
             </div>
 
