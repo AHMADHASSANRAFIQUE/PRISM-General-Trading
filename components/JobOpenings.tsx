@@ -37,7 +37,7 @@ export default function JobOpenings() {
     async function syncJobs() {
       setIsSyncing(true);
       try {
-        const res = await fetch("/api/jobs");
+        const res = await fetch(`/api/jobs?t=${Date.now()}`, { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
           if (isMounted && Array.isArray(data.jobs) && data.jobs.length > 0) {

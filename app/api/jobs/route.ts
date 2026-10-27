@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { parseCSV } from "@/lib/csvParser";
 import { DEFAULT_OPENINGS, JobOpening } from "@/lib/jobsData";
 
-export const revalidate = 60; // Auto-revalidate every 60 seconds
+export const dynamic = "force-dynamic";
+export const revalidate = 0; // Real-time live sync with Google Sheets
 
 function normalizeGoogleSheetUrl(rawUrl: string): string {
   if (!rawUrl) return rawUrl;
@@ -51,7 +52,7 @@ export async function GET(request: Request) {
       headers: {
         Accept: "text/csv, text/plain, */*",
       },
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
 
     if (!response.ok) {
