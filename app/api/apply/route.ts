@@ -18,11 +18,15 @@ const APPLICATIONS_DIR = path.join(DATA_DIR, "applications");
 const APPLICATIONS_FILE = path.join(DATA_DIR, "applications.jsonl");
 
 function ensureDirectories() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-  if (!fs.existsSync(APPLICATIONS_DIR)) {
-    fs.mkdirSync(APPLICATIONS_DIR, { recursive: true });
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    if (!fs.existsSync(APPLICATIONS_DIR)) {
+      fs.mkdirSync(APPLICATIONS_DIR, { recursive: true });
+    }
+  } catch (err) {
+    // Vercel serverless has a read-only filesystem; safe to ignore
   }
 }
 
@@ -116,40 +120,34 @@ export async function POST(request: Request) {
       );
     }
 
-    // 4. Read File Bytes & Store
-    ensureDirectories();
+    // 4. Read File Bytes
     const fileBuffer = Buffer.from(await cvFile.arrayBuffer());
     const applicationRef = `APP-${Date.now()}-${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
     const safeFilename = `${applicationRef}_${sanitize(fullName).replace(/\s+/g, "_")}${fileExt}`;
-    const targetFilePath = path.join(APPLICATIONS_DIR, safeFilename);
 
+    // Safely attempt local file logging (fails gracefully on serverless read-only disks)
     try {
+      ensureDirectories();
+      const targetFilePath = path.join(APPLICATIONS_DIR, safeFilename);
       fs.writeFileSync(targetFilePath, fileBuffer);
-    } catch (fsErr) {
-      console.warn("[APPLY STORAGE] File save fallback:", fsErr);
-    }
-
-    // Append record to JSONL audit log
-    const record = {
-      ref: applicationRef,
-      timestamp: new Date().toISOString(),
-      clientIp,
-      jobTitle: sanitize(jobTitle),
-      jobId: sanitize(jobId),
-      fullName: sanitize(fullName),
-      email: email.trim().toLowerCase(),
-      phone: sanitize(phone),
-      coverNote: sanitize(coverNote),
-      cvFilename: cvFile.name,
-      savedFilename: safeFilename,
-      fileSizeBytes: cvFile.size,
-      status: "received",
-    };
-
-    try {
+      const record = {
+        ref: applicationRef,
+        timestamp: new Date().toISOString(),
+        clientIp,
+        jobTitle: sanitize(jobTitle),
+        jobId: sanitize(jobId),
+        fullName: sanitize(fullName),
+        email: email.trim().toLowerCase(),
+        phone: sanitize(phone),
+        coverNote: sanitize(coverNote),
+        cvFilename: cvFile.name,
+        savedFilename: safeFilename,
+        fileSizeBytes: cvFile.size,
+        status: "received",
+      };
       fs.appendFileSync(APPLICATIONS_FILE, JSON.stringify(record) + "\n", { encoding: "utf-8" });
-    } catch (logErr) {
-      console.error("[APPLY LOG ERROR] Could not persist log:", logErr);
+    } catch (fsErr) {
+      console.warn("[APPLY STORAGE] Skipped local file persistence (serverless environment):", fsErr);
     }
 
     // 5. Dispatch via SMTP if configured
@@ -159,10 +157,11 @@ export async function POST(request: Request) {
 
     if (smtpHost && smtpUser && smtpPass) {
       try {
+        const isSecure = process.env.SMTP_SECURE === "true" || Number(process.env.SMTP_PORT) === 465;
         const transporter = nodemailer.createTransport({
           host: smtpHost,
-          port: Number(process.env.SMTP_PORT) || 587,
-          secure: process.env.SMTP_SECURE === "true",
+          port: Number(process.env.SMTP_PORT) || 465,
+          secure: isSecure,
           auth: {
             user: smtpUser,
             pass: smtpPass,
@@ -170,7 +169,7 @@ export async function POST(request: Request) {
         });
 
         await transporter.sendMail({
-          from: process.env.SMTP_FROM || `"Prism Careers Portal" <careers@prismintl.co>`,
+          from: process.env.SMTP_FROM || `"Prism Careers Portal" <${smtpUser}>`,
           to: process.env.CONTACT_RECIPIENT_EMAIL || "info@prismintl.co",
           replyTo: email.trim().toLowerCase(),
           subject: `[Job Application - ${jobTitle}] ${fullName}`,
@@ -178,7 +177,7 @@ export async function POST(request: Request) {
 PRISM GENERAL TRADING — TALENT APPLICATION
 --------------------------------------------------
 Application Ref: ${applicationRef}
-Date / Time:     ${record.timestamp}
+Date / Time:     ${new Date().toISOString()}
 Position:        ${jobTitle}
 
 Candidate Name:  ${fullName}
@@ -199,11 +198,12 @@ Dispatched from https://prismintl.co/careers
             },
           ],
         });
+        console.log(`[APPLY SMTP SUCCESS] Application ${applicationRef} dispatched to ${process.env.CONTACT_RECIPIENT_EMAIL || "info@prismintl.co"}`);
       } catch (mailErr) {
         console.error("[APPLY SMTP ERROR] Email dispatch failed:", mailErr);
       }
     } else {
-      console.log(`[APPLY RECEIVED] ${applicationRef} for "${jobTitle}" from ${fullName} (${email}). Saved to data/applications/`);
+      console.log(`[APPLY RECEIVED] ${applicationRef} for "${jobTitle}" from ${fullName} (${email}).`);
     }
 
     return NextResponse.json({
