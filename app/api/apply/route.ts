@@ -155,22 +155,41 @@ export async function POST(request: Request) {
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASS;
 
+    let emailDispatched = false;
+    let emailError: string | null = null;
+
     if (smtpHost && smtpUser && smtpPass) {
       try {
-        const isSecure = process.env.SMTP_SECURE === "true" || Number(process.env.SMTP_PORT) === 465;
-        const transporter = nodemailer.createTransport({
-          host: smtpHost,
-          port: Number(process.env.SMTP_PORT) || 465,
-          secure: isSecure,
-          auth: {
-            user: smtpUser,
-            pass: smtpPass,
-          },
-        });
+        // Strip spaces from Google App Password if user pasted with spaces
+        const cleanPass = smtpPass.trim().replace(/\s+/g, "");
+        const cleanUser = smtpUser.trim();
+
+        // Use nodemailer's official 'gmail' service preset if using Gmail
+        const transportConfig: any = smtpHost.toLowerCase().includes("gmail")
+          ? {
+              service: "gmail",
+              auth: {
+                user: cleanUser,
+                pass: cleanPass,
+              },
+            }
+          : {
+              host: smtpHost.trim(),
+              port: Number(process.env.SMTP_PORT) || 587,
+              secure: process.env.SMTP_SECURE === "true" || Number(process.env.SMTP_PORT) === 465,
+              auth: {
+                user: cleanUser,
+                pass: cleanPass,
+              },
+            };
+
+        const transporter = nodemailer.createTransport(transportConfig);
+
+        const recipient = process.env.CONTACT_RECIPIENT_EMAIL || "info@prismintl.co";
 
         await transporter.sendMail({
-          from: process.env.SMTP_FROM || `"Prism Careers Portal" <${smtpUser}>`,
-          to: process.env.CONTACT_RECIPIENT_EMAIL || "info@prismintl.co",
+          from: process.env.SMTP_FROM || `"Prism Careers Portal" <${cleanUser}>`,
+          to: recipient,
           replyTo: email.trim().toLowerCase(),
           subject: `[Job Application - ${jobTitle}] ${fullName}`,
           text: `
@@ -198,17 +217,22 @@ Dispatched from https://prismintl.co/careers
             },
           ],
         });
-        console.log(`[APPLY SMTP SUCCESS] Application ${applicationRef} dispatched to ${process.env.CONTACT_RECIPIENT_EMAIL || "info@prismintl.co"}`);
-      } catch (mailErr) {
+        emailDispatched = true;
+        console.log(`[APPLY SMTP SUCCESS] Application ${applicationRef} dispatched to ${recipient}`);
+      } catch (mailErr: any) {
+        emailError = mailErr?.message || String(mailErr);
         console.error("[APPLY SMTP ERROR] Email dispatch failed:", mailErr);
       }
     } else {
-      console.log(`[APPLY RECEIVED] ${applicationRef} for "${jobTitle}" from ${fullName} (${email}).`);
+      emailError = "SMTP environment variables not configured on server.";
+      console.log(`[APPLY RECEIVED] ${applicationRef} for "${jobTitle}" from ${fullName} (${email}). SMTP credentials not present.`);
     }
 
     return NextResponse.json({
       success: true,
       applicationRef,
+      emailDispatched,
+      emailError,
       message: `Your application for ${jobTitle} and CV have been successfully submitted to Prism General Trading.`,
     });
   } catch (err: any) {
