@@ -105,8 +105,8 @@ export default function JobApplicationModal({
       return;
     }
 
-    if (uploadedFile.size > 10 * 1024 * 1024) {
-      setErrorMessage("File exceeds 10MB limit. Please upload a smaller document.");
+    if (uploadedFile.size > 4 * 1024 * 1024) {
+      setErrorMessage("File exceeds 4MB limit. Please upload a standard CV document under 4MB (PDF, DOC, or DOCX).");
       return;
     }
 
@@ -151,7 +151,16 @@ export default function JobApplicationModal({
         body: formData,
       });
 
-      const data = await res.json();
+      if (res.status === 413) {
+        throw new Error("File exceeds 4MB server limit. Please upload a CV under 4MB (PDF or Word).");
+      }
+
+      let data: any = {};
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        throw new Error("Server response error. Please try again or email info@prismintl.co directly.");
+      }
 
       if (!res.ok) {
         throw new Error(data.error || "Submission failed. Please try again.");
@@ -363,7 +372,7 @@ export default function JobApplicationModal({
                           Click to browse or drag & drop your CV here
                         </p>
                         <p className="text-[11px] text-slate-500">
-                          PDF, DOC, or DOCX (Max 10MB)
+                          PDF, DOC, or DOCX (Max 4MB)
                         </p>
                       </div>
                     </div>

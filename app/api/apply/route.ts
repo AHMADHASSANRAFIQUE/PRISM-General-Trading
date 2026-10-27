@@ -101,11 +101,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // File size check: Max 10MB
-    const MAX_SIZE = 10 * 1024 * 1024;
+    // File size check: Max 4MB (Vercel payload constraint)
+    const MAX_SIZE = 4 * 1024 * 1024;
     if (cvFile.size > MAX_SIZE) {
       return NextResponse.json(
-        { error: "CV file size exceeds the 10MB limit. Please upload a smaller document." },
+        { error: "CV file size exceeds the 4MB limit. Please upload a smaller document." },
         { status: 400 }
       );
     }
