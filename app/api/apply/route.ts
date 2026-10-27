@@ -208,7 +208,79 @@ ${coverNote ? coverNote.trim() : "No additional note provided."}
 
 Attached CV:     ${cvFile.name} (${Math.round(cvFile.size / 1024)} KB)
 --------------------------------------------------
-Dispatched from https://prismintl.co/careers
+Dispatched from https://www.prismintl.co/careers
+          `.trim(),
+          html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b; }
+    .card { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+    .header { background: #0f172a; padding: 28px 32px; color: #ffffff; }
+    .header h1 { margin: 0 0 6px 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+    .header p { margin: 0; font-size: 13px; color: #94a3b8; }
+    .badge { display: inline-block; padding: 4px 10px; background: rgba(255,255,255,0.12); border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px; }
+    .content { padding: 32px; }
+    .field { margin-bottom: 20px; }
+    .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 4px; }
+    .value { font-size: 15px; color: #0f172a; font-weight: 500; }
+    .note-box { background: #f1f5f9; border-left: 4px solid #0284c7; padding: 16px; border-radius: 8px; font-size: 14px; line-height: 1.5; color: #334155; margin-top: 8px; }
+    .cv-box { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 16px; display: flex; align-items: center; margin-top: 16px; }
+    .footer { padding: 20px 32px; background: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="badge">Prism Careers Portal</div>
+      <h1>New Talent Application Received</h1>
+      <p>Candidate application submitted via https://www.prismintl.co/careers</p>
+    </div>
+    <div class="content">
+      <div class="field">
+        <div class="label">Applied Position</div>
+        <div class="value" style="font-size: 18px; color: #0369a1; font-weight: 700;">${jobTitle}</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <tr>
+          <td style="padding: 8px 0; width: 50%;">
+            <div class="label">Candidate Name</div>
+            <div class="value">${fullName}</div>
+          </td>
+          <td style="padding: 8px 0; width: 50%;">
+            <div class="label">Contact / WhatsApp</div>
+            <div class="value"><a href="tel:${phone}" style="color: #0284c7; text-decoration: none;">${phone}</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0;" colspan="2">
+            <div class="label">Email Address</div>
+            <div class="value"><a href="mailto:${email}" style="color: #0284c7; text-decoration: none;">${email}</a> (Click "Reply" to email directly)</div>
+          </td>
+        </tr>
+      </table>
+      ${coverNote ? `
+      <div class="field">
+        <div class="label">Introduction / Cover Note</div>
+        <div class="note-box">${coverNote.trim()}</div>
+      </div>
+      ` : ''}
+      <div class="field">
+        <div class="label">Attached CV Document</div>
+        <div class="cv-box">
+          <strong>📎 ${cvFile.name}</strong>&nbsp;(${Math.round(cvFile.size / 1024)} KB)
+          <br><span style="font-size: 12px; color: #64748b;">(The original CV file is attached to this email)</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      Application Ref: <strong>${applicationRef}</strong> • Dispatched automatically from Prism General Trading
+    </div>
+  </div>
+</body>
+</html>
           `.trim(),
           attachments: [
             {
